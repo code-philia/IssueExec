@@ -56,3 +56,4 @@ Thumbs.db
 # Keep util directory
 !util/
 !util/**
+!requirements.txt

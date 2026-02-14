@@ -14,7 +14,6 @@ This repository is prepared to meet **top-tier double-blind review** artifact st
 - `localize.py` — main pipeline entry (multi-stage localization).
 - `Localizer.py` — core localization components.
 - `prompt.py` — prompt templates.
-- `parse_for_judgement.py` — result parsing for evaluation/judgement.
 - `merge.py` — merges outputs from multiple stages.
 - `util/` — shared utilities (pre/post-processing, model/API wrappers, structure parsing).
 
