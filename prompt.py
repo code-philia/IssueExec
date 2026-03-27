@@ -15,6 +15,19 @@ Selection rules (keep recall high):
 4. Deprioritize pure downstream consumers or observers unless they are needed for coverage breadth.
 5. Maintain **HIGH RECALL**: it's better to include extra potentially relevant tests than to miss a few critical ones.
 
+### Few-shot Guidance ###
+Shot 1 — Trigger vs root cause:
+- If A triggers a condition but B reacts incorrectly, prioritize tests for B.
+- Example: error occurs, but debug page fails to show details → select debug-display tests, not config/error-source tests.
+
+Shot 2 — Same name, different layer:
+- Use namespace prefixes to identify the correct layer.
+- Example: `models.FilePathField` + `makemigrations` → prioritize model/database-layer tests, not form-layer tests.
+
+Shot 3 — Operation vs infrastructure:
+- When the issue names a specific feature/operation, prioritize tests for that operation.
+- Example: `RenameModel` noop bug → select migration operation tests, not generic introspection tests.
+
 ### GitHub Issue Description ###
 {problem_statement}
 
@@ -34,7 +47,6 @@ Requirements:
 - One test per line in format: file_path::function_name
 - No numbering, bullets, markdown, or headers
 - No explanations or additional text
-
 """
 
 
@@ -54,6 +66,12 @@ In projects with good test coverage, new bugs often indicate **test false negati
 
 ## Objective
 Explain why the related tests can pass (false negatives), and infer which requirement/assumption is missing. Focus on locating **problematic production code** (not test code changes).
+
+## Quick Step-by-Step Guidance
+1. Compare what the tests validate vs. what the issue requires.
+2. Identify the trigger condition missing from current test data or setup.
+3. Infer the implementation assumption that lets the bug pass.
+4. Summarize the likely root-cause behavior and its propagation.
 
 ## Analysis Requirements
 1. Identify how current assertions are insufficient or misaligned with the issue.
@@ -110,10 +128,16 @@ False negatives happen when **incorrect implementations still satisfy incomplete
 ## Mapping Objective
 Produce a ranked set of suspicious code locations that are likely to require modification.
 
+## Quick Step-by-Step Guidance
+1. Start from the blind-spot mechanisms and locate matching covered code.
+2. Separate direct root-cause candidates from propagation/similarity risks.
+3. Keep only covered identifiers; otherwise mark NOT_IN_COVERAGE.
+4. Rank by root-cause likelihood and coordinated-change need.
+
 ## CRITICAL CONSTRAINT
 You MUST ONLY reference functions/methods/classes that appear in **Code Locations Covered by Related Tests**.
 If the issue strongly points to code not in the coverage list, write:
-- `NOT_IN_COVERAGE: ...` and explain the limitation.
+- NOT_IN_COVERAGE: ... and explain the limitation.
 
 ## Output Format Requirements
 Wrap the entire output in triple backticks and follow this exact schema:
@@ -226,6 +250,33 @@ Identifier may be:
 - `ClassName.method_name`
 
 For large classes, only a skeleton may be provided.
+
+## Single-shot Example
+Issue: Case-insensitive header lookup fails after header-name normalization changes.
+
+Candidates:
+```
+(1) web/request.py::Request.get_header
+(2) http/headers.py::normalize_header_name
+(3) http/headers.py::HeaderMap.__contains__
+(4) api/views.py::ProfileView.get
+(5) logging/access.py::AccessLogger.log_request
+```
+
+Keep:
+- `http/headers.py::normalize_header_name` — root-cause normalization logic
+- `http/headers.py::HeaderMap.__contains__` — paired lookup logic that must stay aligned
+
+Filter out:
+- passthrough accessor (`Request.get_header`)
+- endpoint caller (`ProfileView.get`)
+- pure observer/logger (`AccessLogger.log_request`)
+
+Output:
+```
+(1) http/headers.py::normalize_header_name
+(2) http/headers.py::HeaderMap.__contains__
+```
 
 ## Ranking Criteria
 1. Root cause vs symptom (highest weight)
