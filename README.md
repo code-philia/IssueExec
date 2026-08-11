@@ -19,6 +19,16 @@ IssueExec is the artifact accompanying **“IssueExec: A Test-Driven Approach fo
 
 > **Paper:** Jiawei Liu, Yun Lin, Chenyan Liu, Yu Qian, Yiming Liu, Jiaxin Chang, Weinan Zhang, and Linpeng Huang. [ISSTA 2026 research paper](https://conf.researchr.org/details/issta-2026/issta-2026-research-papers/199/IssueExec-A-Test-Driven-Approach-for-Localizing-Software-Engineering-Issues) · [arXiv:2607.17286](https://arxiv.org/abs/2607.17286)
 
+## Framework
+
+The IssueExec framework combines offline preprocessing with online issue localization. It retrieves relevant tests, analyzes their execution traces, refines the context, and produces ranked edit locations.
+
+<p align="center">
+  <img src="assets/framework.png" alt="IssueExec framework overview" width="100%" />
+</p>
+
+*IssueExec framework overview.*
+
 ## Why IssueExec?
 
 Direct issue-to-code matching often fails because issue descriptions talk about behavior while code identifiers reflect implementation structure. IssueExec uses a two-hop evidence chain:
@@ -60,6 +70,7 @@ IssueExec/
 │   └── utils/                 # data, repository, model, and post-processing helpers
 ├── localize.py                # compatibility launcher
 ├── merge.py                   # compatibility launcher
+├── assets/framework.png       # framework overview figure
 ├── example_data.tar.gz        # reproducible example package
 ├── requirements.txt
 └── README.md / README.zh-CN.md

@@ -19,6 +19,16 @@ IssueExec 是论文 **“IssueExec: A Test-Driven Approach for Localizing Softwa
 
 > **论文：** Jiawei Liu, Yun Lin, Chenyan Liu, Yu Qian, Yiming Liu, Jiaxin Chang, Weinan Zhang, and Linpeng Huang. [ISSTA 2026 论文详情](https://conf.researchr.org/details/issta-2026/issta-2026-research-papers/199/IssueExec-A-Test-Driven-Approach-for-Localizing-Software-Engineering-Issues) · [arXiv:2607.17286](https://arxiv.org/abs/2607.17286)
 
+## 框架概览
+
+IssueExec 将离线预处理与在线 issue 定位结合起来：先检索相关测试，分析测试执行轨迹，再进行上下文细化和重排序，最终输出按优先级排列的修改位置。
+
+<p align="center">
+  <img src="assets/framework.png" alt="IssueExec 框架概览" width="100%" />
+</p>
+
+*IssueExec 框架概览。*
+
 ## 为什么需要 IssueExec？
 
 直接将 issue 与代码进行匹配经常会失败：issue 描述的是行为需求，而代码标识符通常体现的是实现结构。IssueExec 采用如下两跳证据链：
@@ -60,6 +70,7 @@ IssueExec/
 │   └── utils/                 # 数据、仓库、模型与后处理工具
 ├── localize.py                # 兼容启动脚本
 ├── merge.py                   # 兼容启动脚本
+├── assets/framework.png       # 框架概览图
 ├── example_data.tar.gz        # 可复现实例数据包
 ├── requirements.txt
 └── README.md / README.zh-CN.md
