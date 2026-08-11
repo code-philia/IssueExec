@@ -29,25 +29,6 @@ The IssueExec framework combines offline preprocessing with online issue localiz
 
 *IssueExec framework overview.*
 
-## Why IssueExec?
-
-Direct issue-to-code matching often fails because issue descriptions talk about behavior while code identifiers reflect implementation structure. IssueExec uses a two-hop evidence chain:
-
-```text
-Issue description  ──semantic retrieval──▶  Relevant tests
-                                              │
-                                              └─ execution traces ─▶  Candidate code locations
-                                                                        │
-                                      repository structure + supplementary retrieval + reranking
-                                                                        ▼
-                                                            ranked edit locations
-```
-
-The framework addresses two practical challenges:
-
-- **Domain-specific terminology:** test representations can be enriched with project knowledge mined from historical changes, including abbreviations and API aliases.
-- **Trace noise:** hierarchical execution-trace analysis separates requirement-central code from incidental infrastructure calls.
-
 ## Dynamic trace collection
 
 The batch dynamic-tracing stage used to build IssueExec's execution-path inputs is maintained in a companion repository:
