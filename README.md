@@ -1,129 +1,156 @@
-# IssueExec (Anonymous Artifact)
+<div align="center">
 
-IssueExec is a test-driven framework for **software issue localization**. It operationalizes the paper’s idea that **tests serve as executable requirements** by (1) retrieving requirement-relevant tests, (2) analyzing execution traces to identify suspicious code locations, (3) refining candidates using repository structure and supplemental retrieval, and (4) reranking to output final ranked edit locations.
+# IssueExec
 
-This repository is prepared to meet **top-tier double-blind review** artifact standards:
-- No author / affiliation identifiers
-- No private links, tokens, or machine-specific paths committed
-- Reproducible, CLI-driven execution with explicit inputs/outputs
+### A Test-Driven Approach for Localizing Software Engineering Issues
 
----
+[![ISSTA 2026](https://img.shields.io/badge/ISSTA-2026-6f42c1.svg)](https://conf.researchr.org/home/issta-2026)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![SWE-bench Lite](https://img.shields.io/badge/Benchmark-SWE--bench%20Lite-1f883d.svg)](https://www.swebench.com/)
+[![DOI](https://img.shields.io/badge/DOI-10.1145%2F3832290-b31b1b.svg)](https://doi.org/10.1145/3832290)
 
-## Repository Structure
+**Tests as executable requirements for issue localization.**
 
-- `localize.py` — main pipeline entry (multi-stage localization).
-- `Localizer.py` — core localization components.
-- `prompt.py` — prompt templates.
-- `merge.py` — merges outputs from multiple stages.
-- `util/` — shared utilities (pre/post-processing, model/API wrappers, structure parsing).
+[English](README.md) · [简体中文](README.zh-CN.md)
 
----
+</div>
 
-## Environment Setup (Required)
+IssueExec is the artifact accompanying **“IssueExec: A Test-Driven Approach for Localizing Software Engineering Issues,” accepted at ISSTA 2026**. It treats a repository's test suite as an executable specification: issue-relevant tests provide a requirement-level semantic bridge, and their runtime traces ground that bridge in concrete implementation locations.
 
-### 1) Install Dependencies
+> **Paper:** Jiawei Liu, Yun Lin, Chenyan Liu, Yu Qian, Yiming Liu, Jiaxin Chang, Weinan Zhang, and Linpeng Huang. *Proc. ACM Softw. Eng.*, 3 (ISSTA), Article ISSTA199, 2026. [DOI: 10.1145/3832290](https://doi.org/10.1145/3832290)
+
+## Why IssueExec?
+
+Direct issue-to-code matching often fails because issue descriptions talk about behavior while code identifiers reflect implementation structure. IssueExec uses a two-hop evidence chain:
+
+```text
+Issue description  ──semantic retrieval──▶  Relevant tests
+                                              │
+                                              └─ execution traces ─▶  Candidate code locations
+                                                                        │
+                                      repository structure + supplementary retrieval + reranking
+                                                                        ▼
+                                                            ranked edit locations
+```
+
+The framework addresses two practical challenges:
+
+- **Domain-specific terminology:** test representations can be enriched with project knowledge mined from historical changes, including abbreviations and API aliases.
+- **Trace noise:** hierarchical execution-trace analysis separates requirement-central code from incidental infrastructure calls.
+
+## Results reported in the paper
+
+The evaluation on **SWE-bench Lite** reports:
+
+| Metric | Improvement over the strongest baseline |
+| --- | ---: |
+| File-level Recall@1 | **17.78%** |
+| Module-level Recall@1 | **25.98%** |
+| Function-level Recall@1 | **41.57%** |
+| Agentless end-to-end issue resolution | **17.72%** |
+
+The supporting study also found that existing tests cover **96.98% of ground-truth files**, and the test-mediated two-hop route has stronger semantic connectivity than direct matching in **82.4% of cases** across 18 repositories.
+
+## Repository at a glance
+
+| Path | Purpose |
+| --- | --- |
+| [`localize.py`](localize.py) | CLI entry point and multi-stage localization pipeline |
+| [`Localizer.py`](Localizer.py) | Test retrieval, trace analysis, candidate localization, and reranking components |
+| [`prompt.py`](prompt.py) | Prompts used by the localization stages |
+| [`merge.py`](merge.py) | Merges test-based and supplementary localization outputs |
+| [`util/`](util/) | Data preparation, repository indexing, API wrappers, domain-knowledge utilities, and post-processing |
+| [`example_data.tar.gz`](example_data.tar.gz) | Small example package containing issue inputs and auxiliary artifacts |
+| [`requirements.txt`](requirements.txt) | Python dependencies used by the artifact |
+
+## Quick start
+
+### 1. Install dependencies
 
 ```bash
-pip install -r requirements.txt
-````
+git clone git@github.com:AWGiaGia/IssueExec.git
+cd IssueExec
+python -m pip install -r requirements.txt
+```
 
-### 2) Configure API Keys
-
-Set the model backend endpoint and key (example uses OpenAI-compatible interface):
+IssueExec calls an OpenAI-compatible, DeepSeek-compatible, or Anthropic-compatible backend. Configure the credentials for the backend you select; never commit secrets:
 
 ```bash
+# OpenAI-compatible example
 export OPENAI_BASE_URL="<openai_base_url>"
 export OPENAI_API_KEY="<your_api_key>"
 ```
 
-> **Note:** Do not hardcode or commit any secrets.
-
----
-
-## Data Preparation (Required)
-
-### 3) Unpack Example Data
+### 2. Prepare the example data
 
 ```bash
 tar -xzf example_data.tar.gz
 ```
 
-This creates the example dataset and required auxiliary files (e.g., coverage graph).
+This creates `example_data/issues/test` and the auxiliary coverage artifacts used by the example commands below.
 
----
+### 3. Run the complete localization pipeline
 
-## Running the Pipeline (All Steps)
+Each stage writes `loc_outputs.jsonl` below `example/<stage>/`. The next stage consumes the previous stage's output through `--start_file`.
 
-All commands below are **required** to reproduce the full pipeline described in the execution document.
-
-### 4) Relevant Test Retrieval
+#### Stage 1 — retrieve requirement-relevant tests
 
 ```bash
 python localize.py \
-    --stage related_tests_retrieval \
-    --output_folder example \
-    --num_threads 2 \
-    --skip_existing \
-    --model gpt-4o-2024-05-13 \
-    --backend openai \
-    --top_n 5 \
-    --dataset example_data/issues/test \
-    --coverage_graph_path example_data/coverage_graph
+  --stage related_tests_retrieval \
+  --output_folder example \
+  --num_threads 2 \
+  --skip_existing \
+  --model gpt-4o-2024-05-13 \
+  --backend openai \
+  --top_n 5 \
+  --dataset example_data/issues/test \
+  --coverage_graph_path example_data/coverage_graph
 ```
 
-* Produces initial localization outputs under:
+Output: `example/related_tests_retrieval/loc_outputs.jsonl`.
 
-  * `example/related_tests_retrieval/loc_outputs.jsonl`
-
----
-
-### 5) Trace-Guided Localization
+#### Stage 2 — analyze false negatives and execution traces
 
 ```bash
 python localize.py \
-    --stage blind_spot_analysis \
-    --output_folder example \
-    --num_threads 2 \
-    --skip_existing \
-    --start_file example/related_tests_retrieval/loc_outputs.jsonl \
-    --model gpt-4o-2024-05-13 \
-    --backend openai \
-    --dataset example_data/issues/test
+  --stage blind_spot_analysis \
+  --output_folder example \
+  --num_threads 2 \
+  --skip_existing \
+  --start_file example/related_tests_retrieval/loc_outputs.jsonl \
+  --model gpt-4o-2024-05-13 \
+  --backend openai \
+  --dataset example_data/issues/test
 ```
 
-* Consumes the previous stage output via `--start_file`.
+Output: `example/blind_spot_analysis/loc_outputs.jsonl`.
 
----
-
-### 6) Refinement (Supplementary Retrieval)
+#### Stage 3 — supplementary retrieval
 
 ```bash
 python localize.py \
-    --stage suppletory_retrieval \
-    --output_folder example \
-    --num_threads 2 \
-    --skip_existing \
-    --start_file example/blind_spot_analysis/loc_outputs.jsonl \
-    --model gpt-4o-2024-05-13 \
-    --backend openai \
-    --dataset example_data/issues/test
+  --stage suppletory_retrieval \
+  --output_folder example \
+  --num_threads 2 \
+  --skip_existing \
+  --start_file example/blind_spot_analysis/loc_outputs.jsonl \
+  --model gpt-4o-2024-05-13 \
+  --backend openai \
+  --dataset example_data/issues/test
 ```
 
----
+Output: `example/suppletory_retrieval/loc_outputs.jsonl`.
 
-### 7) Merge Outputs
+#### Stage 4 — merge candidate sources
 
 ```bash
 python merge.py --target_folder example
 ```
 
-* Produces merged outputs under:
+Output: `example/merge/loc_outputs.jsonl`.
 
-  * `example/merge/loc_outputs.jsonl`
-
----
-
-### 8) Reranking
+#### Stage 5 — rerank final edit locations
 
 ```bash
 python localize.py \
@@ -138,4 +165,43 @@ python localize.py \
   --dataset example_data/issues/test
 ```
 
-* This final stage outputs the ranked edit locations for downstream patch generation.
+The final output is `example/reranking/loc_outputs.jsonl`, containing ranked locations for downstream patch generation.
+
+## Configuration notes
+
+- `--model` accepts `gpt-4o-2024-05-13`, `gpt-4o-mini-2024-07-18`, `deepseek-coder`, and `claude-3-5-sonnet-20241022`.
+- Match `--backend` to the selected model provider (`openai`, `deepseek`, or `anthropic`).
+- Use `--use_online_domain_knowledge` to collect domain knowledge only for BM25-filtered tests. Alternatively, pass precomputed per-instance files with `--domain_knowledge_path`.
+- `--context_expansion` enables full code context during reranking; `--suppletory_context_level module` changes supplementary retrieval from file-level to module-level context.
+- `--repo_cache_dir` controls temporary SWE-bench repository checkouts (default: `/tmp/swe_bench_repos`).
+- Outputs and logs are intentionally ignored by Git. Keep API keys in environment variables or a local `.env` file that is not committed.
+
+## Reproducibility checklist
+
+- [ ] Install the pinned dependencies from `requirements.txt`.
+- [ ] Configure the selected model backend and credentials.
+- [ ] Extract `example_data.tar.gz`.
+- [ ] Run stages 1–5 in order, preserving each `loc_outputs.jsonl` path.
+- [ ] Record the model, backend, dataset path, and number of workers used for each run.
+
+The repository is intended for research reproduction and extension. API calls may incur provider-specific cost and latency; `--skip_existing` can resume an interrupted run.
+
+## Citation
+
+```bibtex
+@article{liu2026issueexec,
+  author  = {Liu, Jiawei and Lin, Yun and Liu, Chenyan and Qian, Yu and
+             Liu, Yiming and Chang, Jiaxin and Zhang, Weinan and Huang, Linpeng},
+  title   = {IssueExec: A Test-Driven Approach for Localizing Software Engineering Issues},
+  journal = {Proceedings of the ACM on Software Engineering},
+  volume  = {3},
+  number  = {ISSTA},
+  articleno = {ISSTA199},
+  year    = {2026},
+  doi     = {10.1145/3832290}
+}
+```
+
+## Contact
+
+For questions about the artifact, please open a [GitHub issue](https://github.com/AWGiaGia/IssueExec/issues) or contact the authors listed in the paper.
