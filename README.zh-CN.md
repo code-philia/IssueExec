@@ -46,9 +46,9 @@ IssueExec 批量动态测试轨迹的收集工具位于配套仓库：
 
 该工具在 SWE-bench Docker 环境中批量运行测试，注册 Python `call`/`return` hook，过滤插桩噪声，并导出每个测试对应的 `tests-info.json` 与 `traces.json`。IssueExec 在后续测试驱动定位阶段读取这些轨迹。安装方式、Docker 编排、输出 schema 和复现实验说明请参考该仓库的 README。
 
-## 论文报告的结果
+## 实验结果
 
-在 **SWE-bench Lite** 上，IssueExec 相比最强基线的提升为：
+在 **SWE-bench Lite** 上，IssueExec 相比最强基线提升：
 
 | 指标 | 提升 |
 | --- | ---: |

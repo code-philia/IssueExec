@@ -46,9 +46,9 @@ The batch dynamic-tracing stage used to build IssueExec's execution-path inputs 
 
 That tool runs the tests inside SWE-bench Docker environments, registers a Python `call`/`return` hook, filters instrumentation noise, and exports per-test `tests-info.json` and `traces.json` artifacts. IssueExec consumes these traces in the test-driven localization stages described below. See the companion repository's README for installation, Docker orchestration, output schemas, and reproducibility instructions.
 
-## Results reported in the paper
+## Main results
 
-The evaluation on **SWE-bench Lite** reports:
+On **SWE-bench Lite**, IssueExec improves over the strongest baseline by:
 
 | Metric | Improvement over the strongest baseline |
 | --- | ---: |
