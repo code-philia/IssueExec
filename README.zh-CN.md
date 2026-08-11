@@ -42,7 +42,7 @@ Issue 描述 ──语义检索──▶ 相关测试
 
 IssueExec 批量动态测试轨迹的收集工具位于配套仓库：
 
-**[AWGiaGia/swe-tools — Dynamic trace collection](https://github.com/AWGiaGia/swe-tools)**
+**[Dynamic trace collection](https://github.com/AWGiaGia/swe-tools)**
 
 该工具在 SWE-bench Docker 环境中批量运行测试，注册 Python `call`/`return` hook，过滤插桩噪声，并导出每个测试对应的 `tests-info.json` 与 `traces.json`。IssueExec 在后续测试驱动定位阶段读取这些轨迹。安装方式、Docker 编排、输出 schema 和复现实验说明请参考该仓库的 README。
 

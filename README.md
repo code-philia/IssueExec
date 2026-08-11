@@ -42,7 +42,7 @@ The framework addresses two practical challenges:
 
 The batch dynamic-tracing stage used to build IssueExec's execution-path inputs is maintained in a companion repository:
 
-**[AWGiaGia/swe-tools — Dynamic trace collection](https://github.com/AWGiaGia/swe-tools)**
+**[Dynamic trace collection](https://github.com/AWGiaGia/swe-tools)**
 
 That tool runs the tests inside SWE-bench Docker environments, registers a Python `call`/`return` hook, filters instrumentation noise, and exports per-test `tests-info.json` and `traces.json` artifacts. IssueExec consumes these traces in the test-driven localization stages described below. See the companion repository's README for installation, Docker orchestration, output schemas, and reproducibility instructions.
 
