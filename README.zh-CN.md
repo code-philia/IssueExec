@@ -4,10 +4,10 @@
 
 ### 面向软件工程问题定位的测试驱动方法
 
-[![ISSTA 2026](https://img.shields.io/badge/ISSTA-2026-6f42c1.svg)](https://conf.researchr.org/home/issta-2026)
+[![ISSTA 2026](https://img.shields.io/badge/ISSTA-2026-6f42c1.svg)](https://conf.researchr.org/details/issta-2026/issta-2026-research-papers/199/IssueExec-A-Test-Driven-Approach-for-Localizing-Software-Engineering-Issues)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![SWE-bench Lite](https://img.shields.io/badge/Benchmark-SWE--bench%20Lite-1f883d.svg)](https://www.swebench.com/)
-[![DOI](https://img.shields.io/badge/DOI-10.1145%2F3832290-b31b1b.svg)](https://doi.org/10.1145/3832290)
+[![arXiv](https://img.shields.io/badge/arXiv-2607.17286-b31b1b.svg)](https://arxiv.org/abs/2607.17286)
 
 **将测试视为可执行需求，用于连接 issue 与代码实现。**
 
@@ -17,7 +17,7 @@
 
 IssueExec 是论文 **“IssueExec: A Test-Driven Approach for Localizing Software Engineering Issues”** 的配套 artifact，论文已被 **ISSTA 2026 接收**。该框架将测试套件视为可执行规格：首先用与 issue 相关的测试建立需求层面的语义桥梁，再利用这些测试的运行时执行轨迹，将语义证据落到具体的代码位置。
 
-> **论文：** Jiawei Liu, Yun Lin, Chenyan Liu, Yu Qian, Yiming Liu, Jiaxin Chang, Weinan Zhang, and Linpeng Huang. *Proc. ACM Softw. Eng.*, 3 (ISSTA), Article ISSTA199, 2026. [DOI: 10.1145/3832290](https://doi.org/10.1145/3832290)
+> **论文：** Jiawei Liu, Yun Lin, Chenyan Liu, Yu Qian, Yiming Liu, Jiaxin Chang, Weinan Zhang, and Linpeng Huang. [ISSTA 2026 论文详情](https://conf.researchr.org/details/issta-2026/issta-2026-research-papers/199/IssueExec-A-Test-Driven-Approach-for-Localizing-Software-Engineering-Issues) · [arXiv:2607.17286](https://arxiv.org/abs/2607.17286)
 
 ## 为什么需要 IssueExec？
 
@@ -190,15 +190,10 @@ python localize.py \
 
 ```bibtex
 @article{liu2026issueexec,
-  author  = {Liu, Jiawei and Lin, Yun and Liu, Chenyan and Qian, Yu and
-             Liu, Yiming and Chang, Jiaxin and Zhang, Weinan and Huang, Linpeng},
   title   = {IssueExec: A Test-Driven Approach for Localizing Software Engineering Issues},
-  journal = {Proceedings of the ACM on Software Engineering},
-  volume  = {3},
-  number  = {ISSTA},
-  articleno = {ISSTA199},
-  year    = {2026},
-  doi     = {10.1145/3832290}
+  author  = {Liu, Jiawei and Lin, Yun and Liu, Chenyan and Qian, Yu and Liu, Yiming and Chang, Jiaxin and Zhang, Weinan and Huang, Linpeng},
+  journal = {arXiv preprint arXiv:2607.17286},
+  year    = {2026}
 }
 ```
 

@@ -4,10 +4,10 @@
 
 ### A Test-Driven Approach for Localizing Software Engineering Issues
 
-[![ISSTA 2026](https://img.shields.io/badge/ISSTA-2026-6f42c1.svg)](https://conf.researchr.org/home/issta-2026)
+[![ISSTA 2026](https://img.shields.io/badge/ISSTA-2026-6f42c1.svg)](https://conf.researchr.org/details/issta-2026/issta-2026-research-papers/199/IssueExec-A-Test-Driven-Approach-for-Localizing-Software-Engineering-Issues)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776ab.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![SWE-bench Lite](https://img.shields.io/badge/Benchmark-SWE--bench%20Lite-1f883d.svg)](https://www.swebench.com/)
-[![DOI](https://img.shields.io/badge/DOI-10.1145%2F3832290-b31b1b.svg)](https://doi.org/10.1145/3832290)
+[![arXiv](https://img.shields.io/badge/arXiv-2607.17286-b31b1b.svg)](https://arxiv.org/abs/2607.17286)
 
 **Tests as executable requirements for issue localization.**
 
@@ -17,7 +17,7 @@
 
 IssueExec is the artifact accompanying **“IssueExec: A Test-Driven Approach for Localizing Software Engineering Issues,” accepted at ISSTA 2026**. It treats a repository's test suite as an executable specification: issue-relevant tests provide a requirement-level semantic bridge, and their runtime traces ground that bridge in concrete implementation locations.
 
-> **Paper:** Jiawei Liu, Yun Lin, Chenyan Liu, Yu Qian, Yiming Liu, Jiaxin Chang, Weinan Zhang, and Linpeng Huang. *Proc. ACM Softw. Eng.*, 3 (ISSTA), Article ISSTA199, 2026. [DOI: 10.1145/3832290](https://doi.org/10.1145/3832290)
+> **Paper:** Jiawei Liu, Yun Lin, Chenyan Liu, Yu Qian, Yiming Liu, Jiaxin Chang, Weinan Zhang, and Linpeng Huang. [ISSTA 2026 research paper](https://conf.researchr.org/details/issta-2026/issta-2026-research-papers/199/IssueExec-A-Test-Driven-Approach-for-Localizing-Software-Engineering-Issues) · [arXiv:2607.17286](https://arxiv.org/abs/2607.17286)
 
 ## Why IssueExec?
 
@@ -190,15 +190,10 @@ The repository is intended for research reproduction and extension. API calls ma
 
 ```bibtex
 @article{liu2026issueexec,
-  author  = {Liu, Jiawei and Lin, Yun and Liu, Chenyan and Qian, Yu and
-             Liu, Yiming and Chang, Jiaxin and Zhang, Weinan and Huang, Linpeng},
   title   = {IssueExec: A Test-Driven Approach for Localizing Software Engineering Issues},
-  journal = {Proceedings of the ACM on Software Engineering},
-  volume  = {3},
-  number  = {ISSTA},
-  articleno = {ISSTA199},
-  year    = {2026},
-  doi     = {10.1145/3832290}
+  author  = {Liu, Jiawei and Lin, Yun and Liu, Chenyan and Qian, Yu and Liu, Yiming and Chang, Jiaxin and Zhang, Weinan and Huang, Linpeng},
+  journal = {arXiv preprint arXiv:2607.17286},
+  year    = {2026}
 }
 ```
 
