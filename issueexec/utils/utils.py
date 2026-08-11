@@ -121,7 +121,7 @@ def load_existing_instance_ids(output_file: str) -> set:
         A set of instance IDs that have already been processed.
     """
     instance_ids = set()
-    
+
     if os.path.exists(output_file):
         with open(output_file, "r") as f:
             for line in f:
@@ -131,5 +131,5 @@ def load_existing_instance_ids(output_file: str) -> set:
                         instance_ids.add(data["instance_id"])
                 except json.JSONDecodeError:
                     continue
-    
+
     return instance_ids

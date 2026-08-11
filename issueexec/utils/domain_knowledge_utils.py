@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# util/domain_knowledge_utils.py
+# issueexec/utils/domain_knowledge_utils.py
 """
 Online Domain Knowledge collection tool
 
@@ -60,7 +60,7 @@ except Exception as e:
     raise RuntimeError(
         f"Failed to import required modules for online domain knowledge collection.\n"
         f"Error: {e}\n"
-        f"Please ensure these files exist in util/ directory:\n"
+        f"Please ensure these files exist in issueexec/utils/ directory:\n"
         f"  - collect_historical_info.py\n"
         f"  - domain_knowledge_enhancement.py"
     ) from e

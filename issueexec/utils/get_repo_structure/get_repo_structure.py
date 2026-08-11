@@ -1,4 +1,4 @@
-# util/get_repo_structure/get_repo_structure.py
+# issueexec/utils/get_repo_structure/get_repo_structure.py
 import argparse
 import ast
 import json
@@ -71,16 +71,16 @@ def get_project_structure_from_scratch(
     Build repository structure for a specific instance.
     Note: use per-instance clone directory to avoid collisions in parallel runs.
     """
-    
+
     # ========== Per-instance clone path strategy ==========
     # Alternative (disabled):
     # simple_repo_name = repo_name.replace('/', '_')
     # repo_dir = os.path.join(repo_playground, f"{simple_repo_name}__{instance_id}")
-    
+
     # Current strategy:
     repo_dir = os.path.join(repo_playground, instance_id)
     # ===============================================================
-    
+
     # If repo already exists and commit matches, reuse it directly.
     if os.path.exists(repo_dir):
         try:
@@ -91,7 +91,7 @@ def get_project_structure_from_scratch(
                 check=True
             )
             current_commit = result.stdout.strip()
-            
+
             if current_commit == base_commit:
                 print(f"Reusing existing repository at {repo_dir}")
                 structure = create_structure(repo_dir)
@@ -109,11 +109,11 @@ def get_project_structure_from_scratch(
             print(f"Error checking existing repo: {e}, re-cloning...")
             if os.path.exists(repo_dir):
                 subprocess.run(["rm", "-rf", repo_dir], check=True)
-    
+
     # Clone repository into target directory.
     # os.makedirs(repo_dir, exist_ok=True)
     # os.makedirs(repo_dir, exist_ok=True)
-    
+
     try:
         print(f"Cloning repository to {repo_dir}...")
         subprocess.run(
@@ -127,15 +127,15 @@ def get_project_structure_from_scratch(
         print(f"Clone failed: {e}")
         print(f"STDERR: {e.stderr}")  # Helpful git failure details
         raise
-    
+
     # Checkout target commit.
     checkout_commit(repo_dir, base_commit)
-    
+
     # Parse repository structure.
     structure = create_structure(repo_dir)
-    
+
     # Return both structure and local repo path for later cleanup.
-    
+
     return {
         "repo": repo_name,
         "base_commit": base_commit,

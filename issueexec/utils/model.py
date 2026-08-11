@@ -20,11 +20,11 @@ from .api_requests import (
 class DecoderBase(ABC):
     """
     Abstract base class for LLM decoders.
-    
+
     Provides a common interface for generating code completions from
     different language model backends.
     """
-    
+
     def __init__(
         self,
         name: str,
@@ -35,7 +35,7 @@ class DecoderBase(ABC):
     ) -> None:
         """
         Initialize the decoder.
-        
+
         Args:
             name: Name of the model
             logger: Logger instance for logging
@@ -56,12 +56,12 @@ class DecoderBase(ABC):
     ) -> List[dict]:
         """
         Generate code completions for the given message.
-        
+
         Args:
             message: Input message/prompt
             num_samples: Number of samples to generate
             prompt_cache: Whether to use prompt caching
-            
+
         Returns:
             List of dictionaries containing responses and usage information
         """
@@ -71,7 +71,7 @@ class DecoderBase(ABC):
     def is_direct_completion(self) -> bool:
         """
         Check if this decoder supports direct completion mode.
-        
+
         Returns:
             True if direct completion is supported, False otherwise
         """
@@ -88,7 +88,7 @@ class OpenAIChatDecoder(DecoderBase):
     """
     Decoder for OpenAI chat models (GPT-4, GPT-3.5, etc.).
     """
-    
+
     def __init__(self, name: str, logger, **kwargs) -> None:
         super().__init__(name, logger, **kwargs)
 
@@ -97,12 +97,12 @@ class OpenAIChatDecoder(DecoderBase):
     ) -> List[dict]:
         """
         Generate completions using OpenAI's chat API.
-        
+
         Args:
             message: Input message/prompt
             num_samples: Number of samples to generate
             prompt_cache: Whether to use prompt caching (not used for OpenAI)
-            
+
         Returns:
             List of dictionaries containing responses and usage information
         """
@@ -158,11 +158,11 @@ class OpenAIChatDecoder(DecoderBase):
 class AnthropicChatDecoder(OpenAIChatDecoder):
     """
     Decoder for Anthropic Claude models.
-    
+
     Inherits from OpenAIChatDecoder since Claude uses an OpenAI-compatible
     proxy interface, making the calling method identical.
     """
-    
+
     def __init__(self, name: str, logger, **kwargs) -> None:
         super().__init__(name, logger, **kwargs)
 
@@ -174,7 +174,7 @@ class DeepSeekChatDecoder(DecoderBase):
     """
     Decoder for DeepSeek models.
     """
-    
+
     def __init__(self, name: str, logger, **kwargs) -> None:
         super().__init__(name, logger, **kwargs)
 
@@ -183,12 +183,12 @@ class DeepSeekChatDecoder(DecoderBase):
     ) -> List[dict]:
         """
         Generate completions using DeepSeek's API.
-        
+
         Args:
             message: Input message/prompt
             num_samples: Number of samples to generate
             prompt_cache: Whether to use prompt caching (not used for DeepSeek)
-            
+
         Returns:
             List of dictionaries containing responses and usage information
         """
@@ -244,7 +244,7 @@ def make_model(
 ):
     """
     Factory function to create a decoder instance.
-    
+
     Args:
         model: Name of the model to use
         backend: Backend type ("openai", "anthropic", or "deepseek")
@@ -252,10 +252,10 @@ def make_model(
         batch_size: Number of completions per request
         max_tokens: Maximum tokens to generate
         temperature: Sampling temperature
-        
+
     Returns:
         A decoder instance for the specified backend
-        
+
     Raises:
         NotImplementedError: If the backend is not supported
     """

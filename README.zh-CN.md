@@ -48,13 +48,32 @@ IssueExec 批量动态测试轨迹的收集工具位于配套仓库：
 
 ## 仓库结构
 
+源码统一组织在一个 Python 包中；根目录保留两个启动脚本，以兼容原有命令行用法：
+
+```text
+IssueExec/
+├── issueexec/
+│   ├── cli.py                 # 定位流程命令行实现
+│   ├── localizer.py           # 检索、分析与重排序阶段
+│   ├── merge.py               # 结果合并
+│   ├── prompts.py             # LLM 提示词模板
+│   └── utils/                 # 数据、仓库、模型与后处理工具
+├── localize.py                # 兼容启动脚本
+├── merge.py                   # 兼容启动脚本
+├── example_data.tar.gz        # 可复现实例数据包
+├── requirements.txt
+└── README.md / README.zh-CN.md
+```
+
 | 路径 | 用途 |
 | --- | --- |
-| [`localize.py`](localize.py) | 命令行入口及多阶段定位流程 |
-| [`Localizer.py`](Localizer.py) | 测试检索、轨迹分析、候选定位与重排序组件 |
-| [`prompt.py`](prompt.py) | 各阶段使用的提示词模板 |
-| [`merge.py`](merge.py) | 合并测试驱动定位与补充检索结果 |
-| [`util/`](util/) | 数据准备、仓库索引、API 封装、领域知识和后处理工具 |
+| [`localize.py`](localize.py) | 兼容旧用法的命令行包装器 |
+| [`merge.py`](merge.py) | 兼容旧用法的结果合并包装器 |
+| [`issueexec/cli.py`](issueexec/cli.py) | 多阶段定位命令行实现 |
+| [`issueexec/localizer.py`](issueexec/localizer.py) | 测试检索、轨迹分析、候选定位与重排序组件 |
+| [`issueexec/prompts.py`](issueexec/prompts.py) | 各定位阶段使用的提示词模板 |
+| [`issueexec/merge.py`](issueexec/merge.py) | 结果合并实现 |
+| [`issueexec/utils/`](issueexec/utils/) | 数据准备、仓库索引、API 客户端、领域知识和后处理工具 |
 | [`example_data.tar.gz`](example_data.tar.gz) | 示例 issue 输入及辅助 artifact |
 | [`requirements.txt`](requirements.txt) | Python 依赖 |
 
@@ -63,7 +82,7 @@ IssueExec 批量动态测试轨迹的收集工具位于配套仓库：
 ### 1. 安装依赖
 
 ```bash
-git clone git@github.com:AWGiaGia/IssueExec.git
+git clone git@github.com:code-philia/IssueExec.git
 cd IssueExec
 python -m pip install -r requirements.txt
 ```
@@ -102,6 +121,8 @@ python localize.py \
   --dataset example_data/issues/test \
   --coverage_graph_path example_data/coverage_graph
 ```
+
+根目录命令仍作为兼容入口保留；实际实现统一放在 `issueexec/` 包中。
 
 输出：`example/related_tests_retrieval/loc_outputs.jsonl`。
 
@@ -194,4 +215,4 @@ python localize.py \
 
 ## 联系方式
 
-如有 artifact 使用问题，欢迎提交 [GitHub Issue](https://github.com/AWGiaGia/IssueExec/issues)，或联系论文中列出的作者。
+如有 artifact 使用问题，欢迎提交 [GitHub Issue](https://github.com/code-philia/IssueExec/issues)，或联系论文中列出的作者。

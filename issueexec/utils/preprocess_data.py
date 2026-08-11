@@ -1,4 +1,4 @@
-# util/preprocess_data.py
+# issueexec/utils/preprocess_data.py
 import json
 import os
 
@@ -292,10 +292,10 @@ def transfer_arb_locs_to_locs(
         if file_content[0] == pred_file:
             content = file_content[1]
             break
-    
+
     # Handle edge case:
     """
-        File ".../util/preprocess_data.py", line N, in transfer_arb_locs_to_locs
+        File ".../issueexec/utils/preprocess_data.py", line N, in transfer_arb_locs_to_locs
             max_line = max(min(loc[1] + context_window, len(content)), 0)
                                                             ^^^^^^^
         UnboundLocalError: cannot access local variable 'content' where it is not associated with a value

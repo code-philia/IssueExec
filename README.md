@@ -48,13 +48,32 @@ That tool runs the tests inside SWE-bench Docker environments, registers a Pytho
 
 ## Repository at a glance
 
+The source tree is organized around one Python package, while the two root-level scripts preserve the original command-line interface:
+
+```text
+IssueExec/
+├── issueexec/
+│   ├── cli.py                 # localization pipeline CLI
+│   ├── localizer.py           # retrieval, analysis, and reranking stages
+│   ├── merge.py               # result merging
+│   ├── prompts.py             # LLM prompt templates
+│   └── utils/                 # data, repository, model, and post-processing helpers
+├── localize.py                # compatibility launcher
+├── merge.py                   # compatibility launcher
+├── example_data.tar.gz        # reproducible example package
+├── requirements.txt
+└── README.md / README.zh-CN.md
+```
+
 | Path | Purpose |
 | --- | --- |
-| [`localize.py`](localize.py) | CLI entry point and multi-stage localization pipeline |
-| [`Localizer.py`](Localizer.py) | Test retrieval, trace analysis, candidate localization, and reranking components |
-| [`prompt.py`](prompt.py) | Prompts used by the localization stages |
-| [`merge.py`](merge.py) | Merges test-based and supplementary localization outputs |
-| [`util/`](util/) | Data preparation, repository indexing, API wrappers, domain-knowledge utilities, and post-processing |
+| [`localize.py`](localize.py) | Backward-compatible CLI wrapper |
+| [`merge.py`](merge.py) | Backward-compatible result-merging wrapper |
+| [`issueexec/cli.py`](issueexec/cli.py) | Multi-stage localization CLI implementation |
+| [`issueexec/localizer.py`](issueexec/localizer.py) | Test retrieval, trace analysis, candidate localization, and reranking |
+| [`issueexec/prompts.py`](issueexec/prompts.py) | Prompts used by the localization stages |
+| [`issueexec/merge.py`](issueexec/merge.py) | Result-merging implementation |
+| [`issueexec/utils/`](issueexec/utils/) | Data preparation, repository indexing, API clients, domain knowledge, and post-processing |
 | [`example_data.tar.gz`](example_data.tar.gz) | Small example package containing issue inputs and auxiliary artifacts |
 | [`requirements.txt`](requirements.txt) | Python dependencies used by the artifact |
 
@@ -63,7 +82,7 @@ That tool runs the tests inside SWE-bench Docker environments, registers a Pytho
 ### 1. Install dependencies
 
 ```bash
-git clone git@github.com:AWGiaGia/IssueExec.git
+git clone git@github.com:code-philia/IssueExec.git
 cd IssueExec
 python -m pip install -r requirements.txt
 ```
@@ -102,6 +121,8 @@ python localize.py \
   --dataset example_data/issues/test \
   --coverage_graph_path example_data/coverage_graph
 ```
+
+The root-level commands remain stable compatibility entry points. The implementation is organized under the `issueexec/` package.
 
 Output: `example/related_tests_retrieval/loc_outputs.jsonl`.
 
@@ -194,4 +215,4 @@ The repository is intended for research reproduction and extension. API calls ma
 
 ## Contact
 
-For questions about the artifact, please open a [GitHub issue](https://github.com/AWGiaGia/IssueExec/issues) or contact the authors listed in the paper.
+For questions about the artifact, please open a [GitHub issue](https://github.com/code-philia/IssueExec/issues) or contact the authors listed in the paper.

@@ -53,7 +53,4 @@ ENV/
 .DS_Store
 Thumbs.db
 
-# Keep util directory
-!util/
-!util/**
 !requirements.txt

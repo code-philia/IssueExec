@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# util/domain_knowledge_enhancement.py
+# issueexec/utils/domain_knowledge_enhancement.py
 """
 Domain Knowledge Enhancement Script
 
