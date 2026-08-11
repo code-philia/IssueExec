@@ -38,6 +38,14 @@ Issue 描述 ──语义检索──▶ 相关测试
 - **领域术语鸿沟：** 从历史代码变更中挖掘缩写、API 别名等项目知识，增强测试表示，使 issue 更容易检索到真正相关的测试。
 - **执行轨迹噪声：** 对调用层级进行分析，过滤偶然执行的基础设施代码，突出与需求最相关的实现位置。
 
+## Dynamic trace collection
+
+IssueExec 批量动态测试轨迹的收集工具位于配套仓库：
+
+**[AWGiaGia/swe-tools — Dynamic trace collection](https://github.com/AWGiaGia/swe-tools)**
+
+该工具在 SWE-bench Docker 环境中批量运行测试，注册 Python `call`/`return` hook，过滤插桩噪声，并导出每个测试对应的 `tests-info.json` 与 `traces.json`。IssueExec 在后续测试驱动定位阶段读取这些轨迹。安装方式、Docker 编排、输出 schema 和复现实验说明请参考该仓库的 README。
+
 ## 论文报告的结果
 
 在 **SWE-bench Lite** 上，IssueExec 相比最强基线的提升为：
