@@ -48,7 +48,7 @@ That tool runs the tests inside SWE-bench Docker environments, registers a Pytho
 
 ## Main results
 
-On **SWE-bench Lite**, IssueExec improves over the strongest baseline by:
+The evaluation on **SWE-bench Lite** reports:
 
 | Metric | Improvement over the strongest baseline |
 | --- | ---: |

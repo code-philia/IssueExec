@@ -48,7 +48,7 @@ IssueExec 批量动态测试轨迹的收集工具位于配套仓库：
 
 ## 实验结果
 
-在 **SWE-bench Lite** 上，IssueExec 相比最强基线提升：
+在 **SWE-bench Lite** 上，IssueExec 相比最强基线的提升为：
 
 | 指标 | 提升 |
 | --- | ---: |
