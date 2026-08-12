@@ -200,7 +200,9 @@ python localize.py \
 @article{liu2026issueexec,
   title   = {IssueExec: A Test-Driven Approach for Localizing Software Engineering Issues},
   author  = {Liu, Jiawei and Lin, Yun and Liu, Chenyan and Qian, Yu and Liu, Yiming and Chang, Jiaxin and Zhang, Weinan and Huang, Linpeng},
-  journal = {arXiv preprint arXiv:2607.17286},
+  journal = {Proceedings of the ACM on Software Engineering},
+  volume  = {3},
+  number  = {ISSTA},
   year    = {2026}
 }
 ```
